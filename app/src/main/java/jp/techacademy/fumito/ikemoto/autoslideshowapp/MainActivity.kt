@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         playOrStopButton.setOnClickListener{
             playOrPauseSlide()
         }
+
+        playOrStopButton.text = "再生"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -98,6 +100,12 @@ class MainActivity : AppCompatActivity() {
 
     //引数のIndexを元に画像更新
     private fun updateImageView(index : Int) {
+
+        if(imageUrlMutableList.count() <= 0)
+        {
+            return
+        }
+
         var currentIndex : Int
         if(index >= imageUrlMutableList.count())
         {
@@ -122,24 +130,35 @@ class MainActivity : AppCompatActivity() {
     //状況によってスライドショーを再生or停止する
     private fun playOrPauseSlide()
     {
+        if(imageUrlMutableList.count() <= 0) {
+            return
+        }
+
         if(mTimer == null)
         {
             //タイマー開始
             mTimer = Timer()
             mTimer!!.schedule(object : TimerTask() {
                 override fun run() {
-                    mTimerSec += 3
+                    mTimerSec += 2
                     mHandler.post {
                         updateImageView(currentImageIndex + 1)
                     }
                 }
-            }, 3000, 3000) // 最初に始動させるまで 3秒、ループの間隔を 3秒 に設定
+            }, 2000, 2000) // 最初に始動させるまで 2秒、ループの間隔を 2秒 に設定
+            playOrStopButton.text = "停止"
+
+            nextButton.isEnabled = false
+            backButton.isEnabled = false
         }
         else
         {
             //mTimerがnullじゃない状態でココに来る
             mTimer!!.cancel()
             mTimer = null
+            playOrStopButton.text = "再生"
+            nextButton.isEnabled = true
+            backButton.isEnabled = true
         }
     }
 }

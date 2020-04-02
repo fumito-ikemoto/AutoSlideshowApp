@@ -34,7 +34,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="再生/停止"
+            android:text=""
             android:id="@+id/playOrStopButton"/>
 
     </LinearLayout>
